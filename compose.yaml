@@ -1,0 +1,92 @@
+version: '3.8'
+services:
+  redis-7000:
+    image: redis:6.2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--cluster-enabled", "yes", "--cluster-config-file", "nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+    container_name: redis-7000
+    hostname: redis-7000
+    ports:
+      - "7000:7000"
+    networks:
+      - redis-cluster-network
+    volumes:
+      - ./redis-node-7000.conf:/usr/local/etc/redis/redis.conf
+
+  redis-7001:
+    image: redis:6.2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--cluster-enabled", "yes", "--cluster-config-file", "nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+    container_name: redis-7001
+    hostname: redis-7001
+    ports:
+      - "7001:7001"
+    networks:
+      - redis-cluster-network
+    volumes:
+      - ./redis-node-7001.conf:/usr/local/etc/redis/redis.conf
+
+  redis-7002:
+    image: redis:6.2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--cluster-enabled", "yes", "--cluster-config-file", "nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+    container_name: redis-7002
+    hostname: redis-7002
+    ports:
+      - "7002:7002"
+    networks:
+      - redis-cluster-network
+    volumes:
+      - ./redis-node-7002.conf:/usr/local/etc/redis/redis.conf
+
+  redis-7003:
+    image: redis:6.2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--cluster-enabled", "yes", "--cluster-config-file", "nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+    container_name: redis-7003
+    hostname: redis-7003
+    ports:
+      - "7003:7003"
+    networks:
+      - redis-cluster-network
+    volumes:
+      - ./redis-node-7003.conf:/usr/local/etc/redis/redis.conf
+
+  redis-7004:
+    image: redis:6.2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--cluster-enabled", "yes", "--cluster-config-file", "nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+    container_name: redis-7004
+    hostname: redis-7004
+    ports:
+      - "7004:7004"
+    networks:
+      - redis-cluster-network
+    volumes:
+      - ./redis-node-7004.conf:/usr/local/etc/redis/redis.conf
+
+  redis-7005:
+    image: redis:6.2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--cluster-enabled", "yes", "--cluster-config-file", "nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+    container_name: redis-7005
+    hostname: redis-7005
+    ports:
+      - "7005:7005"
+    networks:
+      - redis-cluster-network
+    volumes:
+      - ./redis-node-7005.conf:/usr/local/etc/redis/redis.conf
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - redis-cluster-network
+    depends_on:
+      - redis-7000
+      - redis-7001
+      - redis-7002
+      - redis-7003
+      - redis-7004
+      - redis-7005
+
+
+networks:
+  redis-cluster-network:
+    external: true
+
